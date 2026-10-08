@@ -1,2 +1,123 @@
-/.DS_Store
+# Sistema operacional
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Icon?
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+tmp/
+temp/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.python-version
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+share/python-wheels/
+MANIFEST
+develop-eggs/
+*.cover
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.pyre/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.venv/
+venv/
+env/
+ENV/
+
+# Variáveis de ambiente e segredos locais
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# Node.js e ferramentas de frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.yarn/
+.pnp/
+.pnp.*
+.parcel-cache/
+.next/
+.nuxt/
+.turbo/
+.eslintcache
+.stylelintcache
+coverage/
+.nyc_output/
+vite.svg
+
+# Artefatos de build
+out/
+target/
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# IDEs e editores
+.idea/
+*.iml
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.fleet/
+.project
+.classpath
+.settings/
+
+# macOS / Windows / Linux
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Docker e ferramentas de infraestrutura
+.docker/
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+*.tfvars
+*.tfvars.json
+
+# Logs e relatórios locais
+logs/
+*.out
+*.err
+reports/
+
+# Arquivos gerados por ferramentas do projeto
+scripts/servico/__pycache__/
 /status.json
