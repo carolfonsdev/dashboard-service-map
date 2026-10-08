@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GloboAds · Service Map</title>
+<!-- dados.js gerado pelo script — carrega os repos offline -->
+<script src="js/dados.js" onerror="window.__DADOS_OFFLINE=false"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="shell">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <div class="eyebrow">GloboAds · Service Map</div>
+      <h1>Service Map <em>· GloboAds</em></h1>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" onclick="openSrv()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Servidor <span class="srv-dot" id="hdrDot"></span>
+      </button>
+      <button class="icon-btn" onclick="toggleTheme()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" id="themeIco"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- BANNER de estado — sempre visível, comunica o estado do sistema -->
+  <div class="update-banner" id="banner">
+    <div class="dot" id="bannerDot"></div>
+    <div style="flex:1;min-width:0">
+      <span id="bannerTxt">Carregando…</span>
+      <span id="bannerSub" style="margin-left:8px;opacity:.6;font-size:11px"></span>
+    </div>
+    <span class="drop-link" id="dropLink" onclick="toggleDrop()" style="display:none">📂 importar CSV</span>
+  </div>
+
+  <!-- DROP ZONE INLINE (aparece quando clica em "carregar CSV") -->
+  <div class="drop-inline" id="dropZone"
+    onclick="document.getElementById('csvInput').click()"
+    ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)">
+    <input type="file" id="csvInput" accept=".csv" onchange="onFile(event)">
+    <div class="drop-inline-title">📂 Arraste o <code style="font-family:'JetBrains Mono',monospace;background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:12px">repos_analise.csv</code> aqui</div>
+    <div class="drop-inline-sub">ou clique para selecionar · gerado pelo Service Map</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats" id="stats" style="display:none"></div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar" id="toolbar" style="display:none">
+    <div class="search-wrap">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Buscar serviço, stack, descrição…" oninput="render()">
+    </div>
+    <div class="vsep"></div>
+    <div id="techFilters" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+      <span class="glabel" id="techLabel">tecnologia</span>
+      <button class="pill on" data-tech="all" onclick="setTech('all',this)">todos</button>
+      <button class="pill" data-tech="java" onclick="setTech('java',this)"><span class="dot-sm" style="background:#1a6fc4"></span>java</button>
+      <button class="pill" data-tech="node" onclick="setTech('node',this)"><span class="dot-sm" style="background:#15803d"></span>node</button>
+      <button class="pill" data-tech="python" onclick="setTech('python',this)"><span class="dot-sm" style="background:#b45309"></span>python</button>
+      <button class="pill" data-tech="react" onclick="setTech('react',this)"><span class="dot-sm" style="background:#61dafb"></span>react</button>
+      <button class="pill" data-tech="typescript" onclick="setTech('typescript',this)"><span class="dot-sm" style="background:#3178c6"></span>typescript</button>
+      <button class="pill" data-tech="javascript" onclick="setTech('javascript',this)"><span class="dot-sm" style="background:#f0c900"></span>javascript</button>
+    </div>
+    <div class="infra-dropdown" id="infraFilters">
+      <button class="pill infra-toggle" onclick="toggleInfra(event)">infra <span class="infra-arrow"></span></button>
+      <div class="infra-menu" id="infraMenu">
+        <button class="pill" data-conn="Kafka" onclick="toggleConn('Kafka',this)">kafka</button>
+        <button class="pill" data-conn="Pub/Sub" onclick="toggleConn('Pub/Sub',this)">pub/sub</button>
+        <button class="pill" data-conn="Redis" onclick="toggleConn('Redis',this)">redis</button>
+        <button class="pill" data-conn="SQL" onclick="toggleConn('SQL',this)">sql</button>
+        <button class="pill" data-conn="MongoDB" onclick="toggleConn('MongoDB',this)">mongo</button>
+        <button class="pill" data-conn="GCS" onclick="toggleConn('GCS',this)">gcs</button>
+        <button class="pill" data-conn="Feign" onclick="toggleConn('Feign',this)">feign</button>
+        <button class="pill" data-conn="gRPC" onclick="toggleConn('gRPC',this)">grpc</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- OVERLAY + SIDE PANEL (detalhe card) -->
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<div class="panel" id="panel">
+  <div class="panel-header">
+    <div class="panel-icon" id="pIcon"></div>
+    <div style="flex:1;min-width:0">
+      <div class="panel-title" id="pTitle"></div>
+      <div class="panel-sub"   id="pSub"></div>
+    </div>
+    <button class="close-btn" onclick="closePanel()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<!-- SIDEBAR SERVIDOR -->
+<div class="srv-overlay" id="srvOverlay" onclick="closeSrv()"></div>
+<div class="srv-panel" id="srvPanel">
+  <div class="srv-header">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    <span class="srv-title">🛠️ Guia rápido</span>
+    <button class="close-btn" onclick="closeSrv()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  </div>
+  <div class="srv-body">
+    <div class="srv-section">
+      <div class="srv-section-title">agora</div>
+      <div id="svcStatus"></div>
+      <div class="srv-desc" style="margin:8px 0 0">O <b>servidor</b> disponibiliza o dashboard no localhost. O <b>watcher</b> monitora os repositórios e atualiza os dados. Se o watcher estiver offline, o dashboard continua mostrando o último snapshot.</div>
+    </div>
+    <div class="srv-section">
+      <details class="srv-paths"><summary>Configuração</summary>
+      <div class="srv-inputs">
+        <div><label for="inTools">Pasta da ferramenta</label><input id="inTools" spellcheck="false" oninput="salvarCaminhos()"></div>
+        <div><label for="inRepos">Pasta dos repositórios</label><input id="inRepos" spellcheck="false" oninput="salvarCaminhos()"></div>
+      </div></details>
+    </div>
+    <div class="srv-section">
+      <div class="os-tabs" id="osTabs">
+        <button class="os-tab" data-os="mac" onclick="setOS('mac')">🍎 macOS</button>
+        <button class="os-tab" data-os="linux" onclick="setOS('linux')">🐧 Linux</button>
+        <button class="os-tab" data-os="win" onclick="setOS('win')">🪟 Windows</button>
+      </div>
+      <div class="os-tabs" id="actTabs">
+        <button class="os-tab" data-act="iniciar" onclick="setAct('iniciar')">Iniciar</button>
+        <button class="os-tab" data-act="parar" onclick="setAct('parar')">Parar</button>
+        <button class="os-tab" data-act="logs" onclick="setAct('logs')">Logs e checagem</button>
+      </div>
+      <div id="srvSteps"></div>
+    </div>
+    <a class="doc-link" href="https://globo.atlassian.net/wiki/pages/resumedraft.action?draftId=407990206548&amp;draftShareId=dfe306aa-c02d-474b-81b3-420bad928110" target="_blank" rel="noopener noreferrer">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      📖 Ver documentação completa
+    </a>
+  </div>
+</div>
+
+<!-- POSTIT ABOUT -->
+<button class="postit-btn" onclick="togglePostit()" title="Sobre o GloboAds Service Map">?</button>
+<div class="postit" id="postit">
+  <div class="postit-title">📌 GloboAds Service Map</div>
+  <div class="postit-text">
+    Visão centralizada das aplicações do ecossistema GloboAds — linguagem, volume de código, endpoints, testes e integrações.<br><br>
+    Os dados são gerados automaticamente pelo <b>instalar_servico.py</b> e o mapa exibe sempre a <b>última verificação disponível</b>, mesmo sem o watcher ativo.<br><br>
+    Para iniciar ou atualizar o mapa, execute o instalador e informe a pasta que contém os repositórios.
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

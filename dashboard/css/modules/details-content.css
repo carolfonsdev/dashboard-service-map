@@ -1,0 +1,11 @@
+/* detalhe do app */
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12px;margin-bottom:1.25rem}
+.facts dt{color:var(--text-muted)}.facts dd{margin:0;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-word}
+.facts a{color:var(--accent-text)}
+.ep{display:flex;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;padding:3px 0;color:var(--text-dim);word-break:break-all}
+.ep-m{min-width:46px;font-weight:600}
+.ep-GET{color:var(--green)}.ep-POST{color:var(--accent-text)}.ep-PUT,.ep-PATCH{color:#d97706}.ep-DELETE{color:#dc2626}
+details.more summary{cursor:pointer;font-size:11px;color:var(--accent-text);margin-top:6px}
+.rel-chip{display:inline-block;margin:0 5px 5px 0;padding:3px 9px;border-radius:999px;border:1px solid var(--border);background:var(--surface2);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim)}
+button.rel-chip{cursor:pointer}button.rel-chip:hover{border-color:var(--accent);color:var(--accent-text)}
+.rel-lbl{font-size:11px;color:var(--text-muted);margin:0 0 6px}

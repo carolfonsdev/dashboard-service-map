@@ -1,0 +1,9 @@
+/* Entrada dos estilos do dashboard. A ordem dos imports preserva a cascata original. */
+@import url("modules/foundation.css");
+@import url("modules/header.css");
+@import url("modules/toolbar.css");
+@import url("modules/cards.css");
+@import url("modules/details.css");
+@import url("modules/server-panel.css");
+@import url("modules/details-content.css");
+@import url("modules/infra.css");

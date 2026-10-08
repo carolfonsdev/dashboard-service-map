@@ -1,0 +1,13 @@
+/* ── HEADER ── */
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.header-left{}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
+h1{font-size:clamp(17px,2.5vw,24px);font-weight:600;letter-spacing:-.025em}
+h1 em{color:var(--text-muted);font-style:normal;font-weight:300}
+.header-right{display:flex;gap:6px;align-items:center}
+
+/* ── BOTÕES ICON ── */
+.icon-btn{display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);font-size:12px;font-family:inherit;cursor:pointer;transition:all .15s;white-space:nowrap}
+.icon-btn:hover{border-color:var(--border-hover);color:var(--text)}
+.icon-btn svg{flex-shrink:0}
+

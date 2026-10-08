@@ -1,0 +1,27 @@
+/* ── GRID & CARDS ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;overflow:hidden;box-shadow:var(--shadow-sm);transition:border-color .15s,box-shadow .15s,transform .12s}
+.card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.card.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.card-top{padding:13px 14px 9px;display:flex;gap:10px;align-items:flex-start}
+.card-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.card-meta{flex:1;min-width:0}
+.card-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:1px}
+.card-type{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted)}
+.card-badges{padding:0 14px 8px;display:flex;gap:3px;flex-wrap:wrap}
+.badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:100px;border:1px solid;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.b-kafka{color:var(--kafka);background:var(--kafka-bg);border-color:var(--kafka-bd)}
+.b-pubsub{color:var(--pubsub);background:var(--pubsub-bg);border-color:var(--pubsub-bd)}
+.b-redis{color:var(--redis);background:var(--redis-bg);border-color:var(--redis-bd)}
+.b-sql{color:var(--sql);background:var(--sql-bg);border-color:var(--sql-bd)}
+.b-mongo{color:var(--mongo);background:var(--mongo-bg);border-color:var(--mongo-bd)}
+.b-gcs{color:var(--gcs);background:var(--gcs-bg);border-color:var(--gcs-bd)}
+.b-feign{color:var(--feign);background:var(--feign-bg);border-color:var(--feign-bd)}
+.b-grpc{color:var(--grpc);background:var(--grpc-bg);border-color:var(--grpc-bd)}
+.card-nums{padding:0 14px 8px;display:flex;gap:12px}
+.num{font-size:11px;color:var(--text-muted)}
+.num b{color:var(--text);font-weight:500}
+.vol-bar{height:2px;background:var(--border);margin:0 14px 0}
+.vol-fill{height:100%;background:var(--accent);opacity:.35;border-radius:2px}
+.empty{grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted)}
+
